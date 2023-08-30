@@ -1,10 +1,10 @@
 # CadQuery Ladder Terrain - Streamlit Gui
 
-Streamlit Gui that uses my code from [cqterrain](https://github.com/medicationforall/cqterrain) to generate parametric Ladders. 
+Streamlit Gui that usescode from [cqterrain](https://github.com/medicationforall/cqterrain) to generate parametric Obelisks. 
 
 ![](01.png)
 
-View the demo as a [Streamlit App](https://ladderterrain.streamlit.app/)
+View the demo as a [Streamlit App](https://obeliskterrain.streamlit.app/)
 
 
 

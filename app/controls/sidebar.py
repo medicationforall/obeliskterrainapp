@@ -19,4 +19,4 @@ def make_sidebar():
         st.title('CadQuery Ladder Terrain')
         st.markdown("![](https://miniforall.com/image/patreon.png) [Patreon](https://www.patreon.com/medicationforall)")
         st.markdown("[Mini For All](https://miniforall.com)")
-        st.markdown("[Github Code](https://github.com/medicationforall/cqladderterrainstreamlit)")
+        st.markdown("[Github Code](https://github.com/medicationforall/obeliskterrainapp)")
