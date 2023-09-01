@@ -17,9 +17,10 @@ import streamlit as st
 def make_parameter_controls_middle():
     col1, col2, col3 = st.columns(3)
     with col1:
-        middle_width = st.number_input("Middle Width",min_value=1.0,value=30.0,step=1.0)
-    with col2:
         middle_height = st.number_input("Middle Height",min_value=0.1,value=15.0,step=1.0)
+    with col2:
+        middle_width = st.number_input("Middle Width",min_value=1.0,value=30.0,step=1.0)
+        
 
     return {
         'middle_width':middle_width,

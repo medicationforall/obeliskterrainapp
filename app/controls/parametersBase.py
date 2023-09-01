@@ -17,9 +17,9 @@ import streamlit as st
 def make_parameter_controls_base():
     col1, col2, col3 = st.columns(3)
     with col1:
-        base_width = st.number_input("Base Width",min_value=1.0,value=30.0,step=1.0)
-    with col2:
         base_height = st.number_input("Base Height",min_value=0.1,value=3.0,step=1.0)
+    with col2:
+        base_width = st.number_input("Base Width",min_value=1.0,value=30.0,step=1.0)
 
 
     return {

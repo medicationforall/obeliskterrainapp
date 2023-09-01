@@ -74,15 +74,18 @@ def __make_ui():
     # main ui
     add_button, model_parameters, file_controls = __make_tabs()
 
+    st.divider()
+
     col1, col2, col3 = st.columns(3)
     with col1:
         generate_button = st.button('Generate Model', type="primary")
     with col2:
-        color1 = st.color_picker('Model Color', '#E0BD00', label_visibility="collapsed")
+        color1 = st.color_picker('Model Color', '#E06600', label_visibility="collapsed")
     with col3:
         render = st.selectbox("Render", ["material", "wireframe"], label_visibility="collapsed")
     
-    if generate_button  or st.session_state['key']==0:
+    if generate_button or st.session_state['key']==0 or st.session_state['modified_model_layer']:
+        st.session_state['modified_model_layer'] = False
         make_model_controls(
             model_parameters,
             color1,
@@ -96,8 +99,13 @@ def __make_ui():
         st.write("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬆️Please click the \"Generate Model\" Button")
 
     if add_button:
-        st.write("Added model")
+        # fix dupes
+        if len(st.session_state['models']) > 0:
+            for model in st.session_state['models']:
+                if model_parameters['layer_name']==model['layer_name']:
+                    model_parameters['layer_name'] += " copy"
         st.session_state['models'].append(model_parameters)
+        st.session_state['modified_model_layer'] = True
         st.experimental_rerun()
 
 

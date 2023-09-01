@@ -23,7 +23,7 @@ import time
 EXPORT_NAME = 'model'
 PREVIEW_NAME = 'preview.svg'
 
-def __generate_model(parameters):
+def __make_model_layer(parameters):
     model = obelisk(
         base_width=parameters['base_width'],
         base_height=parameters['base_height'],
@@ -36,20 +36,12 @@ def __generate_model(parameters):
         height=parameters['height'],
         faces=parameters['faces'],
         intersect=parameters['intersect']
-    )
+    ).rotate((0,0,1),(0,0,0),parameters['layer_rotate'])
 
-    #if parameters['duplicate']:
-    #    scene = (
-    #        cq.Workplane("XY")
-    #        .union(model)
-    #        .union(model.rotate((0,0,1),(0,0,0), parameters['duplicate_rotate']))
-    #    )
-
-    #    return scene
-    #else:
+    #__generate_preview_image(model, parameters['layer_name']+'.svg')
     return model
 
-def __generate_preview_image(model, image_name, camera):
+'''def __generate_preview_image(model, image_name, color1='#000000', color2='#333333'):
     #create the preview image
     hex_1 = color1.lstrip('#')
     rgb_1 = tuple(int(hex_1[i:i+2], 16) for i in (0, 2, 4))
@@ -57,12 +49,28 @@ def __generate_preview_image(model, image_name, camera):
     hex_2 = color2.lstrip('#')
     rgb_2 = tuple(int(hex_2[i:i+2], 16) for i in (0, 2, 4))
     cq.exporters.export(model, image_name, opt={
-        "projectionDir": (camera['axis1'], camera['axis2'], camera['axis3']),
+        "projectionDir": (1, 1, 0.5),
         "showAxes": True,
-        "focus": camera['focus'],
+        "focus": 50,
         "strokeColor": rgb_1,
         "hiddenColor": rgb_2
-    })
+    })'''
+
+
+
+def __generate_model(parameters):
+    layers = st.session_state['models']
+    model = __make_model_layer(parameters)
+
+    scene = cq.Workplane("XY").union(model)
+    
+    if layers and len(layers) > 0:
+        print("layers")
+        for layer_params in layers:
+            layer_model = __make_model_layer(layer_params)
+            scene = scene.union(layer_model)
+
+    return scene
 
 def __stl_preview(color, render):
     # Load and embed the JavaScript file

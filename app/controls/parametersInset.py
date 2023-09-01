@@ -18,9 +18,9 @@ def make_parameter_controls_inset():
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        inset_width = st.number_input("Inset Width",min_value=1.0,value=15.0, step=1.0)
-    with col2:
         inset_height = st.number_input("Inset Height",min_value=0.1,value=5.0, step=1.0)
+    with col2:
+        inset_width = st.number_input("Inset Width",min_value=1.0,value=15.0, step=1.0)
     
 
     return {

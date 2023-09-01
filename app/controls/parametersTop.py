@@ -17,9 +17,10 @@ import streamlit as st
 def make_parameter_controls_top():
     col1, col2, col3 = st.columns(3)
     with col1:
-        top_width = st.number_input("Top Width",min_value=1.0,value=15.0,step=1.0)
-    with col2:
         top_height = st.number_input("Top Height",min_value=0.1,value=70.0,step=1.0)
+    with col2:
+        top_width = st.number_input("Top Width",min_value=1.0,value=15.0,step=1.0)
+        
 
     return {
         'top_width':top_width,
