@@ -96,7 +96,7 @@ def __make_ui():
 
 if __name__ == "__main__":
     st.set_page_config(
-        page_title="CadQuery Box Test",
+        page_title="CadQuery Obelisk Generator",
         page_icon="🧊"
     )
     __make_ui()
