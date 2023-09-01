@@ -7,3 +7,4 @@ from .parametersMiddle import make_parameter_controls_middle
 from .parametersTop import make_parameter_controls_top
 from .parametersLayers import make_parameter_controls_layers
 from .sidebar import  make_sidebar
+from .layersTable import layers_table

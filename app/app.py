@@ -62,7 +62,6 @@ def __make_tabs():
 
 
 def __make_ui():
-
     if 'key'not in st.session_state:
         st.session_state['key'] = 0
     else:
@@ -114,7 +113,5 @@ if __name__ == "__main__":
         page_title="CadQuery Box Test",
         page_icon="🧊"
     )
-
-    #st.title('CadQuery Box Test')
     __make_ui()
     make_sidebar()
