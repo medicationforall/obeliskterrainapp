@@ -29,5 +29,6 @@ def make_parameter_controls_layers():
 
     return add_button, {
         'layer_rotate':layer_rotate,
-        'layer_name':layer_name
+        'layer_name':layer_name,
+        'layer_display':True
     }

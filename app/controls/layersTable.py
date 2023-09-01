@@ -24,18 +24,15 @@ def layers_table():
         __layers_table_row(index, layer_params)
         
 def __layers_table_header():
-    col_preview, col_name, col_rotation, col_delete = st.columns(4)
-    with col_name:
-        st.write('Name')
-    with col_rotation:
-        st.write('Rotation')
-    with col_preview:
-        st.write('Preview')
-    with col_delete:
-        st.write('Delete')
+    columns = ['Display', 'Preview', 'Name', 'Rotation', 'Delete']
+    for index, tab in enumerate(st.columns(len(columns))):
+        with tab:
+            st.write(columns[index])
 
 def __layers_table_row(index, layer_params):
-    col_preview, col_name, col_rotation, col_delete = st.columns(4)
+    col_display, col_preview, col_name, col_rotation, col_delete = st.columns(5)
+    with col_display:
+        __display_control(index, layer_params)
     with col_name:
         st.write(layer_params['layer_name'])
     with col_rotation:
@@ -45,6 +42,20 @@ def __layers_table_row(index, layer_params):
     with col_delete:
         __row_delete_button(index, layer_params)
 
+def __display_control(index, layer_params):
+    st.checkbox(
+        'Display',
+        key = f"display {layer_params['layer_name']}", 
+        label_visibility = "collapsed", 
+        value = layer_params['layer_display'],
+        args = (index,), 
+        on_change = __display_layer_event
+    )
+
+def __display_layer_event(index):
+    st.session_state['models'][index]['layer_display'] = not st.session_state['models'][index]['layer_display']
+    st.session_state['modified_model_layer'] = True
+
 def __preview_image(layer_params):
         model = __make_model_layer(layer_params).rotate((0,1,0),(0,0,0),180)
         __generate_preview_image(model, 'preview.svg')
@@ -53,14 +64,14 @@ def __preview_image(layer_params):
 def __row_rotate_control(index, layer_params):
         st.number_input(
             "Layer Rotate",
-            key=f"rotate {layer_params['layer_name']}", 
-            label_visibility="collapsed", 
-            min_value=0, 
-            max_value=360, 
-            step=1, 
-            value=layer_params['layer_rotate'],
-            args=(index, layer_params['layer_name'], f"rotate {layer_params['layer_name']}"), 
-            on_change=__rotate_layer_event
+            key = f"rotate {layer_params['layer_name']}", 
+            label_visibility = "collapsed", 
+            min_value = 0, 
+            max_value = 360, 
+            step = 1, 
+            value = layer_params['layer_rotate'],
+            args = (index, layer_params['layer_name'], f"rotate {layer_params['layer_name']}"), 
+            on_change = __rotate_layer_event
         )
 
 def __rotate_layer_event(index, name=None, key=None):
@@ -83,17 +94,17 @@ def __delete_layer_event(index, name=None):
 
 def __make_model_layer(parameters):
     model = obelisk(
-        base_width=parameters['base_width'],
-        base_height=parameters['base_height'],
-        inset_width=parameters['inset_width'],
-        inset_height=parameters['inset_height'],
-        mid_width=parameters['middle_width'],
-        mid_height=parameters['middle_height'],
-        top_width=parameters['top_width'],
-        top_height=parameters['top_height'],
-        height=parameters['height'],
-        faces=parameters['faces'],
-        intersect=parameters['intersect']
+        base_width = parameters['base_width'],
+        base_height = parameters['base_height'],
+        inset_width = parameters['inset_width'],
+        inset_height = parameters['inset_height'],
+        mid_width = parameters['middle_width'],
+        mid_height = parameters['middle_height'],
+        top_width = parameters['top_width'],
+        top_height = parameters['top_height'],
+        height = parameters['height'],
+        faces = parameters['faces'],
+        intersect = parameters['intersect']
     ).rotate((0,0,1),(0,0,0),parameters['layer_rotate'])
     return model
 

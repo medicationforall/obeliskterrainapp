@@ -14,16 +14,15 @@
 
 import streamlit as st
 
-def make_parameter_controls_inset():
-
-    col1, col2, col3 = st.columns(3)
+def make_parameter_point(key, default_height = 70.0, default_width = 15.0):
+    col1, col2, _ = st.columns(3)
     with col1:
-        inset_height = st.number_input("Inset Height",min_value=0.1,value=5.0, step=1.0)
+        height = st.number_input(f"{key.capitalize()} Height", min_value = 0.1, value = default_height, step=1.0)
     with col2:
-        inset_width = st.number_input("Inset Width",min_value=1.0,value=15.0, step=1.0)
-    
+        width = st.number_input(f"{key.capitalize()} Width", min_value = 1.0, value = default_width, step=1.0)
+        
 
     return {
-        'inset_width':inset_width,
-        'inset_height':inset_height
+        f'{key}_width':width,
+        f'{key}_height':height
     }

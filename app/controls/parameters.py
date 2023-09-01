@@ -17,9 +17,9 @@ import streamlit as st
 def make_parameter_controls():
     col1, col2, col3 = st.columns(3)
     with col1:
-        height = st.number_input("height",min_value=1.0, value=110.0,step=1.0)
+        height = st.number_input("Height",min_value=1.0, value=110.0,step=1.0)
     with col2:
-        faces = st.number_input("faces",min_value=2, max_value=30,  value=4,step=1)
+        faces = st.number_input("Faces",min_value=2, max_value=30,  value=4,step=1)
     with col3:
         intersect = st.checkbox("Intersect", True)
 

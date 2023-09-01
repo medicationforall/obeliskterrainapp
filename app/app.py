@@ -18,11 +18,8 @@ import streamlit as st
 from controls import (
     make_sidebar, 
     make_parameter_controls, 
-    make_parameter_controls_base,
-    make_parameter_controls_inset,
-    make_parameter_controls_middle,
-    make_parameter_controls_top,
     make_parameter_controls_layers,
+    make_parameter_point,
     make_model_controls,
     make_file_controls
 )
@@ -41,13 +38,13 @@ def __make_tabs():
     with tab_parameters:
         model_parameters = make_parameter_controls()
     with tab_base:
-        base = make_parameter_controls_base()
+        base = make_parameter_point('base', 3.0, 30.0)
     with tab_inset:
-        inset = make_parameter_controls_inset()
+        inset = make_parameter_point('inset', 5.0, 15.0)
     with tab_middle:
-        middle = make_parameter_controls_middle()
+        middle = make_parameter_point('middle', 15.0, 30.0)
     with tab_top:
-        top = make_parameter_controls_top()
+        top = make_parameter_point('top', 70.0, 15.0)
     with tab_layer:
         add_button, dupe = make_parameter_controls_layers()
     with tab_file:
@@ -62,11 +59,6 @@ def __make_tabs():
 
 
 def __make_ui():
-    if 'key'not in st.session_state:
-        st.session_state['key'] = 0
-    else:
-        st.session_state['key'] = 1
-
     if 'models' not in st.session_state:
         st.session_state['models'] = []
 
@@ -77,25 +69,19 @@ def __make_ui():
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        generate_button = st.button('Generate Model', type="primary")
+        generate_button = st.button('Generate Model')
     with col2:
         color1 = st.color_picker('Model Color', '#E06600', label_visibility="collapsed")
     with col3:
         render = st.selectbox("Render", ["material", "wireframe"], label_visibility="collapsed")
     
-    if generate_button or st.session_state['key']==0 or st.session_state['modified_model_layer']:
-        st.session_state['modified_model_layer'] = False
-        make_model_controls(
-            model_parameters,
-            color1,
-            render,
-            file_controls
-        )
-
-        #if st.session_state['key']==1:
-        #    st.balloons()
-    else:
-        st.write("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬆️Please click the \"Generate Model\" Button")
+    st.session_state['modified_model_layer'] = False
+    make_model_controls(
+        model_parameters,
+        color1,
+        render,
+        file_controls
+    )
 
     if add_button:
         # fix dupes

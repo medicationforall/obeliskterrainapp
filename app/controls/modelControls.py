@@ -38,25 +38,7 @@ def __make_model_layer(parameters):
         intersect=parameters['intersect']
     ).rotate((0,0,1),(0,0,0),parameters['layer_rotate'])
 
-    #__generate_preview_image(model, parameters['layer_name']+'.svg')
     return model
-
-'''def __generate_preview_image(model, image_name, color1='#000000', color2='#333333'):
-    #create the preview image
-    hex_1 = color1.lstrip('#')
-    rgb_1 = tuple(int(hex_1[i:i+2], 16) for i in (0, 2, 4))
-
-    hex_2 = color2.lstrip('#')
-    rgb_2 = tuple(int(hex_2[i:i+2], 16) for i in (0, 2, 4))
-    cq.exporters.export(model, image_name, opt={
-        "projectionDir": (1, 1, 0.5),
-        "showAxes": True,
-        "focus": 50,
-        "strokeColor": rgb_1,
-        "hiddenColor": rgb_2
-    })'''
-
-
 
 def __generate_model(parameters):
     layers = st.session_state['models']
@@ -67,8 +49,9 @@ def __generate_model(parameters):
     if layers and len(layers) > 0:
         print("layers")
         for layer_params in layers:
-            layer_model = __make_model_layer(layer_params)
-            scene = scene.union(layer_model)
+            if layer_params['layer_display']:
+                layer_model = __make_model_layer(layer_params)
+                scene = scene.union(layer_model)
 
     return scene
 
@@ -122,14 +105,9 @@ def make_model_controls(
         #create the model file for downloading
         cq.exporters.export(model,f'{EXPORT_NAME}.{export_type}')
         cq.exporters.export(model,'app/static/'+f'{EXPORT_NAME}.stl')
-        #__generate_preview_image(model, PREVIEW_NAME, color1, color2, camera)
-        
 
         end = time.time()
-
-        #st.write("Preview:")
         __stl_preview(color, render)
-        #st.image(PREVIEW_NAME)
 
         if f'{EXPORT_NAME}.{export_type}' not in os.listdir():
             st.error('The program was not able to generate the mesh.', icon="🚨")
