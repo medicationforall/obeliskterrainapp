@@ -37,6 +37,16 @@ def __generate_model(parameters):
         faces=parameters['faces'],
         intersect=parameters['intersect']
     )
+
+    #if parameters['duplicate']:
+    #    scene = (
+    #        cq.Workplane("XY")
+    #        .union(model)
+    #        .union(model.rotate((0,0,1),(0,0,0), parameters['duplicate_rotate']))
+    #    )
+
+    #    return scene
+    #else:
     return model
 
 def __generate_preview_image(model, image_name, camera):

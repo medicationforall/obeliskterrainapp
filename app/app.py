@@ -22,31 +22,43 @@ from controls import (
     make_parameter_controls_inset,
     make_parameter_controls_middle,
     make_parameter_controls_top,
+    make_parameter_controls_layers,
     make_model_controls,
     make_file_controls
 )
 
 def __make_tabs():
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["Parameters","Base","Inset","Middle","Top", "File", "Overview"])
-    with tab1:
+    tab_parameters, tab_base, tab_inset, tab_middle, tab_top, tab_overview, tab_layer, tab_file = st.tabs([
+        "Parameters",
+        "Base",
+        "Inset",
+        "Middle",
+        "Top", 
+        "Overview",
+        "Layers",
+        "File"
+        ])
+    with tab_parameters:
         model_parameters = make_parameter_controls()
-    with tab2:
+    with tab_base:
         base = make_parameter_controls_base()
-    with tab3:
+    with tab_inset:
         inset = make_parameter_controls_inset()
-    with tab4:
+    with tab_middle:
         middle = make_parameter_controls_middle()
-    with tab5:
+    with tab_top:
         top = make_parameter_controls_top()
-    with tab6:
+    with tab_layer:
+        add_button, dupe = make_parameter_controls_layers()
+    with tab_file:
         file_controls = make_file_controls()
  
-    parameters = model_parameters | base | inset | middle | top
+    parameters = model_parameters | base | inset | middle | top | dupe
 
-    with tab7:
+    with tab_overview:
         st.write(parameters)
 
-    return parameters, file_controls
+    return add_button, parameters, file_controls
 
 
 def __make_ui():
@@ -56,8 +68,11 @@ def __make_ui():
     else:
         st.session_state['key'] = 1
 
+    if 'models' not in st.session_state:
+        st.session_state['models'] = []
+
     # main ui
-    model_parameters, file_controls = __make_tabs()
+    add_button, model_parameters, file_controls = __make_tabs()
 
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -79,6 +94,11 @@ def __make_ui():
         #    st.balloons()
     else:
         st.write("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⬆️Please click the \"Generate Model\" Button")
+
+    if add_button:
+        st.write("Added model")
+        st.session_state['models'].append(model_parameters)
+        st.experimental_rerun()
 
 
 if __name__ == "__main__":
