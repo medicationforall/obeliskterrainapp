@@ -47,7 +47,6 @@ def __generate_model(parameters):
     scene = cq.Workplane("XY").union(model)
     
     if layers and len(layers) > 0:
-        print("layers")
         for layer_params in layers:
             if layer_params['layer_display']:
                 layer_model = __make_model_layer(layer_params)
