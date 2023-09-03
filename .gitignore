@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 
 model.*
+model_*.*
 preview.svg

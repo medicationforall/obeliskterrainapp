@@ -54,7 +54,7 @@ def __display_control(index, layer_params):
 
 def __display_layer_event(index):
     st.session_state['models'][index]['layer_display'] = not st.session_state['models'][index]['layer_display']
-    st.session_state['modified_model_layer'] = True
+
 
 def __preview_image(layer_params):
         model = __make_model_layer(layer_params).rotate((0,1,0),(0,0,0),180)
@@ -90,7 +90,6 @@ def __row_delete_button(index, layer_params):
 def __delete_layer_event(index, name=None):
     if name == st.session_state['models'][index]['layer_name']:
         st.session_state['models'].pop(index)
-        st.session_state['modified_model_layer'] = True
 
 def __make_model_layer(parameters):
     model = obelisk(

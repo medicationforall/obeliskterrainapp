@@ -73,8 +73,7 @@ def __stl_preview(color, render):
             .replace('{__REPLACE_MATERIAL__}',render)
         )
         
-
-
+    session_id = st.session_state['session_id']
     components.html(
         r'<div style="height:500px">'+
         r'<script>'+
@@ -84,7 +83,7 @@ def __stl_preview(color, render):
         'console.log(\'frizzle\');'+
         stl_viewer_component+' '+
         r'</script>'+
-        r'<stl-viewer model="./app/static/model.stl?cache='+str(time.time())+r'"></stl-viewer>'+
+        r'<stl-viewer model="./app/static/model_'+str(session_id)+'.stl?cache='+str(time.time())+r'"></stl-viewer>'+
         r'</div>',
         height = 500
     )
@@ -99,12 +98,13 @@ def make_model_controls(
     start = time.time()
     with st.spinner('Generating Model..'):
         download_name = file_controls['name']
-        export_type = file_controls['type'] 
+        export_type = file_controls['type']
+        session_id = st.session_state['session_id']
         model = __generate_model(parameters)
 
         #create the model file for downloading
         cq.exporters.export(model,f'{EXPORT_NAME}.{export_type}')
-        cq.exporters.export(model,'app/static/'+f'{EXPORT_NAME}.stl')
+        cq.exporters.export(model,'app/static/'+f'{EXPORT_NAME}_{session_id}.stl')
 
         end = time.time()
         __stl_preview(color, render)
