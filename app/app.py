@@ -26,11 +26,12 @@ from controls import (
     make_parameter_controls_layers,
     make_parameter_point,
     make_model_controls,
-    make_file_controls
+    make_file_controls,
+    make_code_view
 )
 
 def __make_tabs():
-    tab_parameters, tab_base, tab_inset, tab_middle, tab_top, tab_layer, tab_file, tab_overview = st.tabs([
+    tab_parameters, tab_base, tab_inset, tab_middle, tab_top, tab_layer, tab_file, tab_code = st.tabs([
         "Model",
         "Base",
         "Inset",
@@ -38,7 +39,7 @@ def __make_tabs():
         "Top", 
         "Layers",
         "File",
-        "Overview",
+        "Code",
         ])
     with tab_parameters:
         model_parameters = make_parameter_controls()
@@ -54,22 +55,26 @@ def __make_tabs():
         add_button, dupe = make_parameter_controls_layers()
     with tab_file:
         file_controls = make_file_controls()
+
  
     #combine tab parameter into one dictionary
     parameters = model_parameters | base | inset | middle | top | dupe
 
-    with tab_overview:
-        col1,col2 = st.columns(2)
-        with col1:
-            st.write("Current")
-        with col2:
-            st.write("Layers")
+    #with tab_overview:
+    #    col1,col2 = st.columns(2)
+    #    with col1:
+    #        st.write("Current")
+    #    with col2:
+    #        st.write("Layers")
 
-        col1,col2 = st.columns(2)
-        with col1:
-            st.write(parameters)
-        with col2:
-            st.write(st.session_state['models'])
+    #    col1,col2 = st.columns(2)
+    #    with col1:
+    #        st.write(parameters)
+    #    with col2:
+    #        st.write(st.session_state['models'])
+
+    with tab_code:
+        make_code_view(parameters, st.session_state['models'])
 
     return add_button, parameters, file_controls
 
@@ -97,7 +102,7 @@ def __model_controls(model_parameters, file_controls):
         file_controls
     )
 
-def __handle_add_button_click(add_model_layer_button):
+def __handle_add_button_click(add_model_layer_button, model_parameters):
     if add_model_layer_button:
         # fix layer name dupes
         if len(st.session_state['models']) > 0:
@@ -113,7 +118,7 @@ def __make_app():
     add_model_layer_button, model_parameters, file_controls = __make_tabs()
     st.divider()
     __model_controls(model_parameters, file_controls)
-    __handle_add_button_click(add_model_layer_button)
+    __handle_add_button_click(add_model_layer_button, model_parameters)
 
 
 def __clean_up_static_files():
