@@ -1,1 +1,2 @@
 git+https://github.com/medicationforall/cqterrain@1.0.4
+numpy>=1.23
