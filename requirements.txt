@@ -1,2 +1,2 @@
-numpy>=1.23
+streamlit==1.36.0
 git+https://github.com/medicationforall/cqterrain@1.0.4
